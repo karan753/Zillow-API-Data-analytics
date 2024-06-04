@@ -1,11 +1,9 @@
 import boto3
 import json
 
-# Load config
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
 
-# Initialize the S3 client with values from the config
 s3_client = boto3.client('s3', 
                          aws_access_key_id=config['aws_access_key_id'],
                          aws_secret_access_key=config['aws_secret_access_key'],
