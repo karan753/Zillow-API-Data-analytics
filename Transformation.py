@@ -2,11 +2,11 @@ import boto3
 import json
 import pandas as pd
 
-# Load config
+
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
 
-# Initialize the S3 client with values from the config
+
 s3_client = boto3.client('s3', 
                          aws_access_key_id=config['aws_access_key_id'],
                          aws_secret_access_key=config['aws_secret_access_key'],
@@ -29,15 +29,15 @@ def lambda_handler(event, context):
     f = [i for i in data["results"]]
     df = pd.DataFrame(f)
     
-    # Select specific columns
+
     selected_columns = ['bathrooms', 'bedrooms', 'city', 'homeStatus', 
                         'homeType', 'livingArea', 'price', 'rentZestimate', 'zipcode']
     df = df[selected_columns]
     
-    # Convert DataFrame to CSV format
+
     csv_data = df.to_csv(index=False)
     
-    # Upload CSV to S3
+
     s3_client.put_object(Bucket=target_bucket, Key=f"{target_file_name}.csv", Body=csv_data)
     
     return {
